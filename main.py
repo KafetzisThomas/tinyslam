@@ -53,24 +53,25 @@ def region_of_interest(edges):
     return masked_edges
 
 
-def detect_lanes(frame):
-    gray = grayscale(frame)
-    blur = gaussian_blur(gray)
-    edges = edge_detection(blur)
-    masked_edges = region_of_interest(edges)
-
-    # Detect lines using hough transform
+def hough_transform(masked_edges):
+    """
+    Detect lines using hough transform.
+    """
     lines = cv2.HoughLinesP(
         masked_edges, 1, np.pi / 180, threshold=50, minLineLength=100, maxLineGap=50
     )
-
     return lines
 
 
 while cap.isOpened():
     # Read next frame
     ret, frame = cap.read()
-    lines = detect_lanes(frame)
+
+    gray = grayscale(frame)
+    blur = gaussian_blur(gray)
+    edges = edge_detection(blur)
+    masked_edges = region_of_interest(edges)
+    lines = hough_transform(masked_edges)
 
     for line in lines:
         x1, y1, x2, y2 = line[0]
