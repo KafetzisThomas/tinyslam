@@ -12,6 +12,10 @@ import numpy as np
 # Load video file
 cap = cv2.VideoCapture(sys.argv[1])
 
+# Allow window resizing
+cv2.namedWindow("tinyslam", cv2.WINDOW_NORMAL)
+cv2.resizeWindow("tinyslam", 1100, 700)
+
 
 def grayscale(frame):
     """
