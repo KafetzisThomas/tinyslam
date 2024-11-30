@@ -34,15 +34,25 @@ def detect_lanes(frame):
     # Apply the mask to the edges
     masked_edges = cv2.bitwise_and(edges, mask)
 
-    return masked_edges
+    # Detect lines using hough transform
+    lines = cv2.HoughLinesP(
+        masked_edges, 1, np.pi / 180, threshold=50, minLineLength=100, maxLineGap=50
+    )
+
+    return lines
 
 
 while cap.isOpened():
     # Read next frame
     ret, frame = cap.read()
-    masked_frame = detect_lanes(frame)
+    lines = detect_lanes(frame)
+
+    for line in lines:
+        x1, y1, x2, y2 = line[0]
+        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+
     # Display the current frame
-    cv2.imshow("tinyslam", masked_frame)
+    cv2.imshow("tinyslam", frame)
 
     # Exit loop if key is pressed
     if cv2.waitKey(1) == ord("q"):
