@@ -12,15 +12,18 @@ def detect_lanes(frame):
     # Apply gaussian blur to reduce noise (from sides)
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
 
-    return blur
+    # Perform edge detection
+    edges = cv2.Canny(blur, 50, 150)
+
+    return edges
 
 
 while cap.isOpened():
     # Read next frame
     ret, frame = cap.read()
-    blurred_frame = detect_lanes(frame)
+    edges_frame = detect_lanes(frame)
     # Display the current frame
-    cv2.imshow("tinyslam", blurred_frame)
+    cv2.imshow("tinyslam", edges_frame)
 
     # Exit loop if key is pressed
     if cv2.waitKey(1) == ord("q"):
