@@ -22,12 +22,18 @@ def gaussian_blur(gray):
     return blur
 
 
+def edge_detection(blur):
+    """
+    Perform edge detection.
+    """
+    edges = cv2.Canny(blur, 50, 150)
+    return edges
+
+
 def detect_lanes(frame):
     gray = grayscale(frame)
     blur = gaussian_blur(gray)
-
-    # Perform edge detection
-    edges = cv2.Canny(blur, 50, 150)
+    edges = edge_detection(blur)
 
     # Define ROI mask
     height, width = edges.shape
