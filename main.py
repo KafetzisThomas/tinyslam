@@ -6,17 +6,34 @@ import numpy as np
 cap = cv2.VideoCapture(sys.argv[1])
 
 
-def detect_lanes(frame):
-    # Convert to grayscale
+def grayscale(frame):
+    """
+    Convert frame to grayscale.
+    """
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    return gray
 
-    # Apply gaussian blur to reduce noise (from sides)
+
+def gaussian_blur(gray):
+    """
+    Apply gaussian blur to reduce noise (from sides).
+    """
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
+    return blur
 
-    # Perform edge detection
+
+def edge_detection(blur):
+    """
+    Perform edge detection.
+    """
     edges = cv2.Canny(blur, 50, 150)
+    return edges
 
-    # Define ROI mask
+
+def region_of_interest(edges):
+    """
+    Define region of interest (ROI) mask.
+    """
     height, width = edges.shape
     mask = np.zeros_like(edges)
     polygon = np.array(
@@ -33,19 +50,28 @@ def detect_lanes(frame):
 
     # Apply the mask to the edges
     masked_edges = cv2.bitwise_and(edges, mask)
+    return masked_edges
 
-    # Detect lines using hough transform
+
+def hough_transform(masked_edges):
+    """
+    Detect lines using hough transform.
+    """
     lines = cv2.HoughLinesP(
         masked_edges, 1, np.pi / 180, threshold=50, minLineLength=100, maxLineGap=50
     )
-
     return lines
 
 
 while cap.isOpened():
     # Read next frame
     ret, frame = cap.read()
-    lines = detect_lanes(frame)
+
+    gray = grayscale(frame)
+    blur = gaussian_blur(gray)
+    edges = edge_detection(blur)
+    masked_edges = region_of_interest(edges)
+    lines = hough_transform(masked_edges)
 
     for line in lines:
         x1, y1, x2, y2 = line[0]
