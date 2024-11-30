@@ -30,12 +30,10 @@ def edge_detection(blur):
     return edges
 
 
-def detect_lanes(frame):
-    gray = grayscale(frame)
-    blur = gaussian_blur(gray)
-    edges = edge_detection(blur)
-
-    # Define ROI mask
+def region_of_interest(edges):
+    """
+    Define region of interest (ROI) mask.
+    """
     height, width = edges.shape
     mask = np.zeros_like(edges)
     polygon = np.array(
@@ -52,6 +50,14 @@ def detect_lanes(frame):
 
     # Apply the mask to the edges
     masked_edges = cv2.bitwise_and(edges, mask)
+    return masked_edges
+
+
+def detect_lanes(frame):
+    gray = grayscale(frame)
+    blur = gaussian_blur(gray)
+    edges = edge_detection(blur)
+    masked_edges = region_of_interest(edges)
 
     # Detect lines using hough transform
     lines = cv2.HoughLinesP(
