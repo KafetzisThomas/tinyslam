@@ -6,9 +6,16 @@ import numpy as np
 cap = cv2.VideoCapture(sys.argv[1])
 
 
-def detect_lanes(frame):
-    # Convert to grayscale
+def grayscale(frame):
+    """
+    Convert frame to grayscale.
+    """
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    return gray
+
+
+def detect_lanes(frame):
+    gray = grayscale(frame)
 
     # Apply gaussian blur to reduce noise (from sides)
     blur = cv2.GaussianBlur(gray, (5, 5), 0)
