@@ -1,3 +1,10 @@
+#!/usr/bin/env python3
+# -*- coding: UTF-8 -*-
+
+# Project Title: tinyslam (https://github.com/KafetzisThomas/tinyslam)
+# Author / Project Owner: KafetzisThomas (https://github.com/KafetzisThomas)
+# License: MIT
+
 import sys
 import cv2
 import numpy as np
