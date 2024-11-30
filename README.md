@@ -7,7 +7,7 @@ A minimalist implementation of monocular SLAM, inspired by [twitchslam](https://
 
 ```bash
 $ pip3 install -r requirements.txt
-$ python3 main.py <video_file.mp4>
+$ python3 main.py [video_file.mp4]
 ```
 
 ## How It Works
