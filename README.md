@@ -20,6 +20,7 @@ The process is broken into clear modular steps:
 4. **[Edge detection](https://github.com/KafetzisThomas/tinyslam/blob/main/tests/edge_detection.py):** Detects edges in the blurred frames.
 5. **[Region of interest (ROI) extraction](https://github.com/KafetzisThomas/tinyslam/blob/main/tests/region_of_interest.py):** Focuses on the region where lanes are expected.
 6. **[Hough transform for line detection](https://github.com/KafetzisThomas/tinyslam/blob/main/tests/hough_transform.py):** Detects lane lines in the ROI.
+7. **[Haar cascade for vehicle detection](https://github.com/KafetzisThomas/tinyslam/blob/main/tests/haar_cascade.py):** Detects vehicles in the frame (gray frame).
 
 ## Demo Video
 
