@@ -22,6 +22,10 @@ The process is broken into clear modular steps:
 6. **[Hough transform for line detection](https://github.com/KafetzisThomas/tinyslam/blob/main/tests/hough_transform.py):** Detects lane lines in the ROI.
 7. **[Haar cascade for vehicle detection](https://github.com/KafetzisThomas/tinyslam/blob/main/tests/haar_cascade.py):** Detects vehicles in the frame (gray frame).
 
-## Demo Video
+## Demo Videos
 
+### Lane Lines Detection
 https://github.com/user-attachments/assets/5e9a44cc-22ae-49e9-bcfd-f71e85fad728
+
+### Lane Lines + Vehicle Detection
+https://github.com/user-attachments/assets/cd67fb2a-a3ce-4104-bac4-139f1e966fbf
