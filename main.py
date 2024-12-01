@@ -12,6 +12,9 @@ import numpy as np
 # Load video file
 cap = cv2.VideoCapture(sys.argv[1])
 
+# Load haar cascade for vehicle detection
+vehicle_cascade = cv2.CascadeClassifier("haarcascade_car.xml")
+
 # Allow window resizing
 cv2.namedWindow("tinyslam", cv2.WINDOW_NORMAL)
 cv2.resizeWindow("tinyslam", 1100, 700)
@@ -74,6 +77,17 @@ def hough_transform(masked_edges):
     return lines
 
 
+def detect_vehicles(frame):
+    """
+    Detect vehicles in the frame.
+    """
+    gray = grayscale(frame)
+    vehicles = vehicle_cascade.detectMultiScale(
+        gray, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30)
+    )
+    return vehicles
+
+
 while cap.isOpened():
     # Read next frame
     ret, frame = cap.read()
@@ -83,10 +97,16 @@ while cap.isOpened():
     edges = edge_detection(blur)
     masked_edges = region_of_interest(edges)
     lines = hough_transform(masked_edges)
+    vehicles = detect_vehicles(frame)
 
+    # Draw lines
     for line in lines:
         x1, y1, x2, y2 = line[0]
         cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+
+    # Draw rectangle around detected vehicles
+    for x, y, w, h in vehicles:
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
 
     # Display the current frame
     cv2.imshow("tinyslam", frame)
