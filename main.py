@@ -100,9 +100,11 @@ while cap.isOpened():
     vehicles = detect_vehicles(frame)
 
     # Draw lines
-    for line in lines:
-        x1, y1, x2, y2 = line[0]
-        cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+    if lines is not None:
+        for line in lines:
+            x1, y1, x2, y2 = line[0]
+            cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+            print(x1, y1, x2, y2)
 
     # Draw rectangle around detected vehicles
     for x, y, w, h in vehicles:
