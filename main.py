@@ -5,7 +5,9 @@
 # Author / Project Owner: KafetzisThomas (https://github.com/KafetzisThomas)
 # License: MIT
 
+import os
 import sys
+import csv
 import cv2
 import numpy as np
 
@@ -88,6 +90,21 @@ def detect_vehicles(frame):
     return vehicles
 
 
+def save_lane_lines_data(x1, y1, x2, y2):
+    """
+    Save lane lines data into csv.
+    """
+    fieldnames = ["start_x", "start_y", "end_x", "end_y"]
+    file_exists = os.path.exists("lane_lines.csv")
+    data = [{"start_x": x1, "start_y": y1, "end_x": x2, "end_y": y2}]
+
+    with open("lane_lines.csv", "a" if file_exists else "w", newline="") as file:
+        writer = csv.DictWriter(file, fieldnames=fieldnames)
+        if not file_exists:
+            writer.writeheader()
+        writer.writerows(data)
+
+
 while cap.isOpened():
     # Read next frame
     ret, frame = cap.read()
@@ -104,6 +121,7 @@ while cap.isOpened():
         for line in lines:
             x1, y1, x2, y2 = line[0]
             cv2.line(frame, (x1, y1), (x2, y2), (0, 255, 0), 3)
+            save_lane_lines_data(x1, y1, x2, y2)
             print(x1, y1, x2, y2)
 
     # Draw rectangle around detected vehicles
